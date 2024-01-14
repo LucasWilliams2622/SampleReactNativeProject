@@ -72,7 +72,7 @@ export default class User {
       },
     );
   }
-
+  
   sendMailWelcome(phone: string) {
     return axiosInstanceUser('application/json').get(SEND_MAIL_WELCOME, {
       params: {phone},
