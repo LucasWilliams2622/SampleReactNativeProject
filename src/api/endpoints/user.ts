@@ -1,0 +1,9 @@
+export const CHECK_PHONE = 'user';
+export const SIGN_IN = 'user/login';
+export const SIGN_UP = 'user/signup';
+export const GET_USER_DETAIL = 'user';
+export const GET_USER_DETAIL_BY_USERNAME = 'user/username/${username}';
+export const GET_OTP_CODE = 'user/sent-otp';
+export const RESET_PASSWORD = 'user/reset-password';
+export const CHANGE_PASSWORD = 'user/change-password';
+export const SEND_MAIL_WELCOME = 'email/signup-welcome';

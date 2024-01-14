@@ -1,0 +1,32 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    /* Completeness */
+    "noImplicitAny": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    // "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-native",
+    "lib": ["es6", "dom", "esnext"],
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "src/*":["src/*"],
+      "api/*":["src/api/*"],
+      "assets/*":["src/assets/*"],
+      "navigation/*":["src/navigation/*"],
+      "components/*":["src/components/*"],
+      "screens/*":["src/screens/*"],
+      "hooks/*":["src/hooks/*"],
+      "styles/*":["src/styles/*"],
+
+    }
+    /* Skip type checking all .d.ts files. */
+  },
+  // "include": ["./src/**/*"] 
+}
