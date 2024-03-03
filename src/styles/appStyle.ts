@@ -2,10 +2,19 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {colors} from './colors';
 import {fonts} from 'src/assets/fonts/fonts';
 import {StatusBar} from 'react-native';
-import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {Platform} from 'react-native';
-export const windowWidth = Dimensions.get('window').width;
-export const windowHeight = Dimensions.get('window').height;
+import DeviceInfo from 'react-native-device-info';
+import {squareImageSize} from 'src/utils';
+export const isTablet = DeviceInfo.isTablet();
+export const windowWidth = isTablet
+  ? Dimensions.get('window').height
+  : Dimensions.get('window').width;
+
+export const windowHeight = isTablet
+  ? Dimensions.get('window').width
+  : Dimensions.get('window').height;
+
 export const appStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -16,13 +25,27 @@ export const appStyle = StyleSheet.create({
     backgroundColor: colors.background,
     marginTop: StatusBar.currentHeight || 0,
   },
-  main: {
+  mainContent: {
     backgroundColor: colors.background,
     flex: 1,
     paddingHorizontal: 14,
     marginTop: 4,
     paddingTop: 20,
   },
+  main: {
+    backgroundColor: colors.background,
+    flex: 1,
+    paddingHorizontal: isTablet ? '20%' : 14,
+    marginTop: 4,
+    paddingTop: isTablet ? 0 : 20,
+  },
+  mainTransparent: {
+    flex: 1,
+    paddingHorizontal: isTablet ? '20%' : 14,
+    marginTop: 4,
+    paddingTop: 20,
+  },
+
   header: {
     backgroundColor: colors.background,
     marginHorizontal: 24,
@@ -52,12 +75,21 @@ export const appStyle = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
+  boxCenterItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   boxInputSmall: {
     padding: 10,
     borderTopLeftRadius: 8,
     paddingVertical: 0,
     borderBottomLeftRadius: 8,
-    height: 40,
+    height: isTablet ? 50 : 40,
+    fontSize: RFValue(14, windowHeight),
+    color: colors.text,
+    fontStyle: 'normal',
+    fontFamily: fonts.Regular,
+
     width: '65%',
     alignItems: 'center',
     borderRadius: 6,
@@ -66,7 +98,6 @@ export const appStyle = StyleSheet.create({
     backgroundColor: colors.background,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    fontFamily: fonts.Regular,
   },
   boxInput: {
     borderWidth: 1,
@@ -106,18 +137,18 @@ export const appStyle = StyleSheet.create({
     fontFamily: fonts.Regular,
   },
   placeholderStyle: {
-    fontSize: 14,
-    fontWeight: '400',
+    fontSize: RFValue(14, windowHeight),
+    fontStyle: 'normal',
+    fontFamily: fonts.Regular,
     color: colors.placeholder,
     paddingLeft: 12,
-    fontFamily: fonts.Regular,
   },
   selectedTextStyle: {
-    fontSize: 14,
-    fontWeight: '400',
+    fontSize: RFValue(14, windowHeight),
+    fontStyle: 'normal',
+    fontFamily: fonts.Regular,
     color: colors.text,
     paddingLeft: 12,
-    fontFamily: fonts.Regular,
   },
   //======================| TABLE |======================
   tableHead: {
@@ -126,291 +157,479 @@ export const appStyle = StyleSheet.create({
   },
   //======================| TEXT - TITLE |======================
   text8: {
-    fontSize: RFValue(8, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(6, windowHeight)
+        : RFValue(8, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
   },
 
   text8Medium: {
-    fontSize: RFValue(8, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(6, windowHeight)
+        : RFValue(8, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text8SemiBold: {
-    fontSize: RFValue(8, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(6, windowHeight)
+        : RFValue(8, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text8Bold: {
-    fontSize: RFValue(8, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(6, windowHeight)
+        : RFValue(8, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text8ExtraBold: {
-    fontSize: RFValue(8, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(6, windowHeight)
+        : RFValue(8, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
 
   text10: {
-    fontSize: RFValue(10, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(10, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
   },
   text10Medium: {
-    fontSize: RFValue(10, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(10, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text10SemiBold: {
-    fontSize: RFValue(10, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(10, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text10Bold: {
-    fontSize: RFValue(10, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(10, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text10ExtraBold: {
-    fontSize: RFValue(10, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(10, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
 
   text12: {
-    fontSize: RFValue(12, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(12, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
   },
   text12Medium: {
-    fontSize: RFValue(12, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(12, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text12SemiBold: {
-    fontSize: RFValue(12, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(12, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text12Bold: {
-    fontSize: RFValue(12, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(12, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text12ExtraBold: {
-    fontSize: RFValue(12, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(8, windowHeight)
+        : RFValue(12, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
 
   text14: {
-    fontSize: RFValue(14, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(10, windowHeight)
+        : RFValue(14, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
   },
   text14Medium: {
-    fontSize: RFValue(14, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(10, windowHeight)
+        : RFValue(14, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text14SemiBold: {
-    fontSize: RFValue(14, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(10, windowHeight)
+        : RFValue(14, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text14Bold: {
-    fontSize: RFValue(14, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(10, windowHeight)
+        : RFValue(14, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text14ExtraBold: {
-    fontSize: RFValue(14, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(10, windowHeight)
+        : RFValue(14, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
 
   text16: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
   },
   text16Medium: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text16SemiBold: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text16Bold: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text16ExtraBold: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
 
   text18: {
-    fontSize: RFValue(18, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(14, windowHeight)
+        : RFValue(18, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Regular,
     letterSpacing: 0.5,
   },
   text18Medium: {
-    fontSize: RFValue(18, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(14, windowHeight)
+        : RFValue(18, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text18SemiBold: {
-    fontSize: RFValue(18, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(14, windowHeight)
+        : RFValue(18, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text18Bold: {
-    fontSize: RFValue(18, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(14, windowHeight)
+        : RFValue(18, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text18ExtraBold: {
-    fontSize: RFValue(18, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(14, windowHeight)
+        : RFValue(18, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
   text20: {
-    fontSize: RFValue(20, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(16, windowHeight)
+        : RFValue(20, windowHeight),
     color: colors.text,
     fontFamily: fonts.Regular,
     fontStyle: 'normal',
   },
   text20Medium: {
-    fontSize: RFValue(20, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(16, windowHeight)
+        : RFValue(20, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text20SemiBold: {
-    fontSize: RFValue(20, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(16, windowHeight)
+        : RFValue(20, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text20Bold: {
-    fontSize: RFValue(20, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(16, windowHeight)
+        : RFValue(20, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text20ExtraBold: {
-    fontSize: RFValue(20, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(16, windowHeight)
+        : RFValue(20, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
   text24: {
-    fontSize: RFValue(24, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(20, windowHeight)
+        : RFValue(24, windowHeight),
     color: colors.text,
     fontFamily: fonts.Regular,
     fontStyle: 'normal',
   },
   text24Medium: {
-    fontSize: RFValue(24, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(20, windowHeight)
+        : RFValue(24, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text24SemiBold: {
-    fontSize: RFValue(24, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(20, windowHeight)
+        : RFValue(24, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text24Bold: {
-    fontSize: RFValue(24, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(20, windowHeight)
+        : RFValue(24, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text24ExtraBold: {
-    fontSize: RFValue(24, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(20, windowHeight)
+        : RFValue(24, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
+
+  text28: {
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(24, windowHeight)
+        : RFValue(28, windowHeight),
+    color: colors.text,
+    fontFamily: fonts.Regular,
+    fontStyle: 'normal',
+  },
+  text28Medium: {
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(24, windowHeight)
+        : RFValue(28, windowHeight),
+    color: colors.text,
+    fontStyle: 'normal',
+    fontFamily: fonts.Medium,
+  },
+  text28SemiBold: {
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(24, windowHeight)
+        : RFValue(28, windowHeight),
+    color: colors.text,
+    fontStyle: 'normal',
+    fontFamily: fonts.SemiBold,
+  },
+  text28Bold: {
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(24, windowHeight)
+        : RFValue(28, windowHeight),
+    color: colors.text,
+    fontStyle: 'normal',
+    fontFamily: fonts.Bold,
+  },
+  text28ExtraBold: {
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(24, windowHeight)
+        : RFValue(28, windowHeight),
+    color: colors.text,
+    fontStyle: 'normal',
+    fontFamily: fonts.ExtraBold,
+  },
+
   text32: {
-    fontSize: RFValue(32, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(28, windowHeight)
+        : RFValue(32, windowHeight),
     color: colors.text,
     fontFamily: fonts.Regular,
     fontStyle: 'normal',
   },
   text32Medium: {
-    fontSize: RFValue(32, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(28, windowHeight)
+        : RFValue(32, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Medium,
   },
   text32SemiBold: {
-    fontSize: RFValue(32, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(28, windowHeight)
+        : RFValue(32, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.SemiBold,
   },
   text32Bold: {
-    fontSize: RFValue(32, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(28, windowHeight)
+        : RFValue(32, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.Bold,
   },
   text32ExtraBold: {
-    fontSize: RFValue(32, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(28, windowHeight)
+        : RFValue(32, windowHeight),
     color: colors.text,
     fontStyle: 'normal',
     fontFamily: fonts.ExtraBold,
   },
   text40: {
-    fontSize: RFValue(40, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(36, windowHeight)
+        : RFValue(40, windowHeight),
     color: colors.text,
     fontFamily: fonts.Regular,
     fontStyle: 'normal',
   },
 
   textButton: {
-    fontSize: RFValue(16, windowHeight),
+    fontSize:
+      isTablet && Platform.OS === 'android'
+        ? RFValue(12, windowHeight)
+        : RFValue(16, windowHeight),
     color: colors.titleButton,
     fontFamily: fonts.Regular,
     fontStyle: 'normal',
@@ -431,13 +650,12 @@ export const appStyle = StyleSheet.create({
   button: {
     backgroundColor: colors.bgButton,
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
-
+    flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 3},
-
     shadowRadius: 1,
-
     borderColor: '#D4D4D4',
   },
   titleButton: {
@@ -488,16 +706,16 @@ export const appStyle = StyleSheet.create({
   },
   //===================| ICONS & IMAGES |======================
   icon: {
-    width: 20,
-    height: 20,
+    width: isTablet ? squareImageSize(0.02) : squareImageSize(0.04),
+    height: isTablet ? squareImageSize(0.02) : squareImageSize(0.04),
   },
   iconMedium: {
-    width: 24,
-    height: 24,
+    width: isTablet ? squareImageSize(0.04) : squareImageSize(0.05),
+    height: isTablet ? squareImageSize(0.04) : squareImageSize(0.05),
   },
   iconBig: {
-    width: 40,
-    height: 40,
+    width: isTablet ? squareImageSize(0.05) : squareImageSize(0.07),
+    height: isTablet ? squareImageSize(0.05) : squareImageSize(0.07),
   },
   iconSmall: {
     width: 16,
@@ -517,11 +735,7 @@ export const appStyle = StyleSheet.create({
     height: 120,
     borderRadius: 999,
   },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 999,
-  },
+
   iconMenu: {
     width: 64,
     height: 64,
@@ -623,7 +837,7 @@ export const appStyle = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 24,
     paddingVertical: 24,
-    width: '80%',
+    width: isTablet ? '56%' : '80%',
     alignItems: 'flex-start',
     borderRadius: 24,
   },
@@ -654,5 +868,33 @@ export const appStyle = StyleSheet.create({
     padding: 8,
     bottom: Platform.OS === 'ios' ? windowHeight * 0.12 : windowHeight * 0.1,
     right: 10,
+  },
+
+  // ===============================| RESPONSIVE PHONE AND TABLE STYLE |======================================
+  //AUTH SCREEN
+  paddingHorAuth: {
+    paddingHorizontal: isTablet ? windowWidth * 0.25 : windowWidth * 0.06,
+  },
+  titleAuth: {
+    color: colors.primary,
+    marginBottom: windowHeight * 0.02,
+    alignSelf: 'center',
+  },
+  avatar: {
+    width: isTablet ? squareImageSize(0.09) : squareImageSize(0.12),
+    height: isTablet ? squareImageSize(0.09) : squareImageSize(0.12),
+    borderRadius: 999,
+  },
+  logoSquare: {
+    width: isTablet ? squareImageSize(0.12) : squareImageSize(0.15),
+    height: isTablet ? squareImageSize(0.12) : squareImageSize(0.15),
+  },
+  logoSquareMedium: {
+    width: isTablet ? squareImageSize(0.15) : squareImageSize(0.2),
+    height: isTablet ? squareImageSize(0.15) : squareImageSize(0.2),
+  },
+  logoSquareBig: {
+    width: isTablet ? squareImageSize(0.2) : squareImageSize(0.25),
+    height: isTablet ? squareImageSize(0.2) : squareImageSize(0.25),
   },
 });
