@@ -9,7 +9,6 @@ import {colors} from 'src/styles/colors';
 export const icons = {
   home: Entypo.getImageSourceSync('home', 20),
   homeo: AntDesign.getImageSourceSync('home', 20),
-
   star: FontAwesome.getImageSourceSync('star', 20, '#fdcd27'),
   staro: FontAwesome.getImageSourceSync('star-o', 20, 'gray'),
   halfStar: FontAwesome.getImageSourceSync('star-half', 20, '#fdcd27'),
@@ -32,10 +31,12 @@ export const icons = {
   info: Entypo.getImageSourceSync('info-with-circle', 20),
   history: MaterialIcons.getImageSourceSync('history', 20),
   notification: Ionicons.getImageSourceSync('notifications', 20, 'black'),
-  notificationo: Ionicons.getImageSourceSync('notifications-outline', 20, 'black'),
+  notificationo: Ionicons.getImageSourceSync(
+    'notifications-outline',
+    20,
+    'black',
+  ),
 
   user: FontAwesome.getImageSourceSync('user', 20, 'black'),
   usero: FontAwesome.getImageSourceSync('user-o', 20, 'black'),
-
-
 };
