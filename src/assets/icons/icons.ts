@@ -1,4 +1,6 @@
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -39,4 +41,8 @@ export const icons = {
 
   user: FontAwesome.getImageSourceSync('user', 20, 'black'),
   usero: FontAwesome.getImageSourceSync('user-o', 20, 'black'),
+  map: FontAwesome5.getImageSourceSync('map-marked-alt', 20, 'black'),
+
+  cancel: MaterialCommunityIcons.getImageSourceSync('cancel', 20, 'black'),
+  check: AntDesign.getImageSourceSync('checkcircleo', 20, 'green'),
 };

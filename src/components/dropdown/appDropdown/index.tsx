@@ -1,18 +1,18 @@
 import {StyleSheet} from 'react-native';
 import React from 'react';
-import {windowHeight, windowWidth} from 'src/styles/appStyle';
+import {isTablet, windowHeight, windowWidth} from 'src/styles/appStyle';
 import {Dropdown} from 'react-native-element-dropdown';
 import {AppDropdownProps} from './type';
 import {fonts} from 'src/assets/fonts/fonts';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {colors} from 'src/styles/colors';
 
 const AppDropdown = ({
   containerStyle,
-  titleStyle,
   selectedTextStyle,
   inputSearchStyle,
   placeholderStyle,
   iconStyle,
-  title,
   placeholder,
 
   backgroundColor = '#ffffff',
@@ -72,18 +72,12 @@ const AppDropdown = ({
         {textAlign: textAlign},
       ]}
       inputSearchStyle={[styles.inputSearchStyle, inputSearchStyle]}
-      mode={mode}
+      mode={isTablet ? 'default' : mode}
       iconStyle={[styles.icon, iconStyle]}
-      search={search}
+      search={isTablet ? false : search}
       searchPlaceholder={searchPlaceholder}
-      containerStyle={{
-        width: windowWidth,
-        paddingVertical: 16,
-        height: windowHeight * 0.65,
-        marginTop: windowHeight * 0.35,
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-      }}
+      maxHeight={isTablet ? windowHeight * 0.2 : 0}
+      containerStyle={[isTablet ? null : styles.containerDropdown]}
       placeholder={placeholder}
       showsVerticalScrollIndicator={false}
       placeholderTextColor={placeholderTextColor}
@@ -101,19 +95,20 @@ export default AppDropdown;
 
 const styles = StyleSheet.create({
   dropdown: {
-    fontSize: 14,
     paddingRight: 12,
     fontFamily: fonts.Medium,
+    fontSize: RFValue(14, windowHeight),
+    color: colors.text,
   },
   placeholderStyle: {
-    fontSize: 14,
-    paddingLeft: 12,
-    color: '#787878',
+    fontSize: RFValue(14, windowHeight),
+    color: colors.text,
     fontFamily: fonts.Regular,
+    paddingLeft: 12,
   },
   selectedTextStyle: {
-    fontSize: 14,
-    color: '#424242',
+    fontSize: RFValue(14, windowHeight),
+    color: colors.text,
     paddingLeft: 12,
     fontFamily: fonts.Medium,
     textAlign: 'center',
@@ -128,4 +123,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   icon: {},
+  containerDropdown: {
+    width: isTablet ? windowHeight : windowWidth,
+    paddingVertical: 16,
+    borderWidth: 2,
+    height: isTablet ? windowWidth * 0.65 : windowHeight * 0.65,
+    marginTop: isTablet ? windowHeight * 0.35 : windowHeight * 0.35,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
 });

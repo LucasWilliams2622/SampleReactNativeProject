@@ -12,6 +12,7 @@ export type AppbarHeaderProps = {
   tintColor?: string;
   backgroundColor?: any;
   iconRightColor?: string;
+  iconSize?: any;
   noIcon?: boolean;
   rightChild?: React.ReactNode;
   noBackground?: boolean;

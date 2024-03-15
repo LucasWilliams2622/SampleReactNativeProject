@@ -5,6 +5,7 @@ export type MultiImagePickerComponentProps = {
   title?: string;
   titleStyle?: StyleProp<TextStyle>;
 
+  arrayImagesAPI?: any;
   borderRadius?: number;
   width?: number;
   height?: number;

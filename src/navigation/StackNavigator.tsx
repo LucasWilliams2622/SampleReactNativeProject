@@ -7,11 +7,8 @@ import {useAppSelector} from 'src/redux/hook';
 import TabNavigator from './TabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
 export default function StackNavigator() {
-  // const { t } = useTranslation();
-  // if (isLoading) {
-  //     return <SplashScreen />;
-  // }
   const {isSignIn} = useAppSelector(state => state.auth);
   const {userInfo} = useAppSelector(state => state.user);
 

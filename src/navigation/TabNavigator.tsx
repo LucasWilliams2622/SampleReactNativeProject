@@ -1,22 +1,25 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image, Text} from 'react-native';
-import {icons} from 'src/assets/icons/icons';
-import {colors} from 'src/styles/colors';
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, Text, View } from 'react-native';
+import { icons } from 'src/assets/icons/icons';
+import { colors } from 'src/styles/colors';
 import * as Animatable from 'react-native-animatable';
-import {View} from 'react-native';
-import {fonts} from 'src/assets/fonts/fonts';
 import Home from 'src/screens/MainScreen/Home';
 import Profile from 'src/screens/MainScreen/Profile';
 import Notification from 'src/screens/MainScreen/Notification';
+import { fonts } from 'src/assets/fonts/fonts';
+import Map from 'src/screens/MainScreen/Map';
 
 const Tab = createBottomTabNavigator();
+
 export default function TabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, label, size}) => {
-          let iconName = focused;
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, size }) => {
+          let iconName;
+          let label = '';
           if (route.name === 'Home') {
             iconName = focused ? icons.home : icons.homeo;
             label = 'Home';
@@ -26,6 +29,9 @@ export default function TabNavigator() {
           } else if (route.name === 'Profile') {
             iconName = focused ? icons.user : icons.usero;
             label = 'Profile';
+          }else if (route.name === 'Map') {
+            iconName = focused ? icons.map : icons.map;
+            label = 'Map';
           }
           return (
             <View
@@ -71,6 +77,7 @@ export default function TabNavigator() {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Notification" component={Notification} />
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Map" component={Map} />
 
     </Tab.Navigator>
   );

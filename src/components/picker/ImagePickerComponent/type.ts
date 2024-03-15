@@ -1,15 +1,22 @@
-import {StyleProp, TextProps, TextStyle, ViewStyle} from 'react-native';
+import {StyleProp, TextStyle, ViewStyle} from 'react-native';
 
 export type ImagePickerComponentProps = {
   containerStyle?: StyleProp<ViewStyle>;
+  outsideStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
   title?: string;
+
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
   borderRadius?: any;
-  width?: number;
-  height?: number;
+
+  width?: any;
+  height?: any;
+
+  widthPicker?: any;
+  heightPicker?: any;
+
   widthIcon?: number;
   heightIcon?: number;
 
@@ -26,4 +33,7 @@ export type ImagePickerComponentProps = {
   setImg?: any;
   imageUrl?: any;
   imageDefault?: any;
+
+  cropEnabled?: boolean;
+  multiple?: boolean;
 };

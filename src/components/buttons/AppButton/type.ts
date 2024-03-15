@@ -3,17 +3,21 @@ import {StyleProp, TextProps, TextStyle, ViewStyle} from 'react-native';
 export type AppButtonProps = {
   containerStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
-  title?: string;
-  backgroundColor?: string;
-  textColor?: string;
-  borderColor?: string;
+  title: string;
+  title2?: string;
+
+  backgroundColor?: any;
+  textColor?: any;
+  borderColor?: any;
   width?: any;
   fontSize?: number;
   marginBottom?: number;
   marginTop?: number;
+  paddingVertical?: any;
 
   borderRadius?: number;
   borderWidth?: number;
+  numberOfLines?: number;
 
   alignSelf?:
     | 'center'
@@ -24,5 +28,8 @@ export type AppButtonProps = {
     | 'auto';
   disabled?: boolean;
   noShadow?: boolean;
-  onPress?: () => void;
+  iconColor?: string;
+  icon?: any;
+  iconSize?: any;
+  onPress: () => void;
 };

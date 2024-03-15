@@ -6,7 +6,6 @@ import QRCODE from 'src/screens/public/qr/QRCode';
 
 export const authRoutes = {
   ...navAuth,
-  // ...navLink,
 };
 export const mainRoutes = {
   ...navSystem,

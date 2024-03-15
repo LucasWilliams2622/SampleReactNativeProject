@@ -1,8 +1,7 @@
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import AppHeader from 'src/components/headers/AppHeader';
+import React, {useEffect} from 'react';
 import {appStyle} from 'src/styles/appStyle';
-import { SVGS } from 'src/assets/svgs';
+import {SVGS} from 'src/assets/svgs';
 const Home = () => {
   return (
     <SafeAreaView style={appStyle.container}>

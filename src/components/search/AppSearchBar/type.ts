@@ -7,13 +7,13 @@ export type AppSearchBarProps = {
   placeholder?: string;
   placeholderColor?: string;
   backgroundColor?: string;
-  paddingVertical?: number;
+  paddingVertical?: any;
   borderColor?: string;
-  borderRadius?: string;
+  borderRadius?: any;
   borderWidth?: any;
 
   icon?: any;
-  width?: string;
+  width?: any;
   value?: string;
   editable?: boolean;
   onChangeText?: (text: string) => void;

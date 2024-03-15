@@ -1,6 +1,6 @@
-import {StyleSheet, TextInput, View, Image, Platform} from 'react-native';
+import {StyleSheet, TextInput, Text, View, Image, Platform} from 'react-native';
 import React from 'react';
-import {icons} from 'src/assets/icons';
+import {icons} from 'src/assets/icons/icons';
 import {colors} from 'src/styles/colors';
 import {AppSearchBarProps} from './type';
 import {appStyle} from 'src/styles/appStyle';
@@ -10,15 +10,15 @@ const AppSearchBar = ({
   textInputStyle,
   placeholder,
   placeholderColor,
-  backgroundColor,
+  backgroundColor = colors.background,
 
-  paddingVertical = Platform.OS === 'ios' ? 12 : 8,
-  borderColor,
-  borderRadius,
-  borderWidth,
+  paddingVertical = Platform.OS === 'ios' ? 10 : 8,
+  borderColor = '#E4E4E4',
+  borderRadius = 6,
+  borderWidth = 1,
 
   icon,
-  width,
+  width = '100%',
   value,
   onChangeText,
   onBlur,
@@ -29,12 +29,11 @@ const AppSearchBar = ({
       style={[
         styles.boxSearch,
         {
-          width: width == null ? '100%' : width,
-          backgroundColor:
-            backgroundColor == null ? '#F7F7F7' : backgroundColor,
-          borderWidth: borderWidth == null ? 1 : borderWidth,
-          borderColor: borderColor == null ? '#E4E4E4' : borderColor,
-          borderRadius: borderRadius == null ? 6 : borderRadius,
+          width: width,
+          backgroundColor: backgroundColor,
+          borderWidth: borderWidth,
+          borderColor: borderColor,
+          borderRadius: borderRadius,
           paddingVertical: paddingVertical,
         },
         containerStyle,
@@ -48,7 +47,7 @@ const AppSearchBar = ({
         value={value}
         cursorColor={colors.primary}
         enablesReturnKeyAutomatically
-        style={[appStyle.text14, styles.textInput, textInputStyle]}
+        style={[appStyle.text12, styles.textInput, textInputStyle]}
         onChangeText={onChangeText}
         spellCheck={true}
         returnKeyType={'default'}
@@ -84,9 +83,6 @@ const styles = StyleSheet.create({
     tintColor: '#787878',
   },
   textInput: {
-    fontSize: 14,
-    color: colors.text,
-    fontWeight: '400',
     fontStyle: 'normal',
     letterSpacing: 0.5,
     marginHorizontal: 12,

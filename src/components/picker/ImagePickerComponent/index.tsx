@@ -1,51 +1,70 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
-  Image,
-  Button,
   Text,
   TouchableOpacity,
   Platform,
+  Pressable,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BottomSheet} from 'react-native-btr';
-import {appStyle, windowHeight} from 'src/styles/appStyle';
+import {appStyle, isTablet, windowHeight} from 'src/styles/appStyle';
 import {colors} from 'src/styles/colors';
 import {icons} from 'src/assets/icons/icons';
 import {ImagePickerComponentProps} from './type';
 import FastImage from 'react-native-fast-image';
-import {images} from 'src/assets/images/images';
 import {squareImageSize} from 'src/utils';
+import ImageView from 'react-native-image-viewing';
+
 const ImagePickerComponent = ({
   containerStyle,
+  outsideStyle,
   titleStyle,
   title = 'Chọn ảnh',
   backgroundColor = colors.background,
   textColor = colors.text,
   borderColor = colors.borderColor,
-  width = squareImageSize(0.25),
-  height = squareImageSize(0.25),
+
+  width = isTablet ? squareImageSize(0.2) : squareImageSize(0.25),
+  height = isTablet ? squareImageSize(0.2) : squareImageSize(0.25),
+
+  widthPicker = 200,
+  heightPicker = 200,
   widthIcon = 50,
   heightIcon = 50,
+
   alignSelf = 'center',
   borderRadius = 12,
   disabled = false,
   setImg,
-  imageUrl,
+  imageUrl = '',
   imageDefault,
   onImageSelected,
+  cropEnabled = true,
+  multiple = false,
 }: ImagePickerComponentProps) => {
   const [selectedImage, setSelectedImage] = useState(imageUrl);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [isImageViewVisible, setImageViewVisible] = useState(false);
 
+  const openImageView = () => {
+    setImageViewVisible(true);
+  };
   const pickImageFromGallery = async () => {
     try {
       const image = await ImagePicker.openPicker({
-        cropping: true,
+        freeStyleCropEnabled: heightPicker || widthPicker ? false : cropEnabled,
+        width: widthPicker,
+        height: heightPicker,
+        multiple: multiple,
+        cropping: cropEnabled,
+        compressImageMaxWidth: widthPicker,
+        compressImageMaxHeight: heightPicker,
+        compressImageQuality: Platform.OS === 'ios' ? 0.8 : 1,
       });
       console.log('image picker', image);
-
+      console.log('Dung lượng sau khi nén:', image?.size); // Kiểm tra dung lượng sau khi nén
       setSelectedImage({uri: image.path});
       // setFilenameImg({filename: image.filename});
       onImageSelected && onImageSelected(image.path);
@@ -67,7 +86,14 @@ const ImagePickerComponent = ({
   const captureImage = async () => {
     try {
       const image = await ImagePicker.openCamera({
-        cropping: true,
+        freeStyleCropEnabled: heightPicker || widthPicker ? false : cropEnabled,
+        //width: widthPicker,
+        //height: heightPicker,
+        multiple: multiple,
+        cropping: cropEnabled,
+        compressImageMaxWidth: widthPicker * 5,
+        compressImageMaxHeight: heightPicker * 5,
+        compressImageQuality: Platform.OS === 'ios' ? 0.8 : 1,
       });
       setSelectedImage({uri: image.path});
       console.log('image', image);
@@ -95,22 +121,35 @@ const ImagePickerComponent = ({
     setBottomSheetVisible(false);
   };
 
+  useEffect(() => {
+    setSelectedImage(imageUrl);
+    return () => {};
+  }, [imageUrl]);
   return (
-    <>
+    <View style={[outsideStyle]}>
       {disabled ? (
-        <FastImage
-          source={{uri: imageUrl ? imageUrl : selectedImage.uri}}
-          style={[
-            {
-              width: width,
-              height: height,
-              marginVertical: 24,
-              borderRadius: borderRadius,
-            },
-            containerStyle,
-          ]}
-          resizeMode="stretch"
-        />
+        <Pressable onPress={openImageView}>
+          <FastImage
+            source={{uri: imageUrl ? imageUrl : selectedImage?.uri}}
+            style={[
+              {
+                width: width,
+                height: height,
+                marginVertical: 24,
+                borderRadius: borderRadius,
+                alignSelf: alignSelf,
+              },
+              containerStyle,
+            ]}
+            resizeMode="stretch"
+          />
+          <ImageView
+            images={[{uri: imageUrl ? imageUrl : selectedImage?.uri}]}
+            imageIndex={0}
+            visible={isImageViewVisible}
+            onRequestClose={() => setImageViewVisible(false)}
+          />
+        </Pressable>
       ) : (
         <TouchableOpacity onPress={openBottomSheet}>
           {!selectedImage ? (
@@ -129,7 +168,7 @@ const ImagePickerComponent = ({
                     },
                   ]}>
                   <FastImage
-                    source={images.avatar}
+                    source={{uri:'https://www.dell.com/wp-uploads/2022/11/Human-like-Avatar-3-640x480.jpg'}}
                     style={appStyle.mediumAvatar}>
                     <View
                       style={[
@@ -169,7 +208,8 @@ const ImagePickerComponent = ({
                       appStyle.text12Medium,
                       {marginTop: 8, color: textColor},
                       titleStyle,
-                    ]}>
+                    ]}
+                    numberOfLines={1}>
                     {title}
                   </Text>
                 </View>
@@ -177,15 +217,18 @@ const ImagePickerComponent = ({
             </View>
           ) : (
             <FastImage
-              source={{uri: imageUrl ? imageUrl : selectedImage.uri}}
+              source={{uri: imageUrl ? imageUrl : selectedImage?.uri}}
               style={[
                 {
                   width: width,
                   height: height,
                   borderRadius: borderRadius,
+                  alignSelf: alignSelf,
+                  borderWidth: 0.5,
+                  borderColor: colors.borderColor,
                 },
               ]}
-              resizeMode="stretch"
+              resizeMode="contain"
             />
           )}
         </TouchableOpacity>
@@ -199,15 +242,21 @@ const ImagePickerComponent = ({
           style={[
             appStyle.modalContentBottom,
             {
-              height: windowHeight * 0.25,
+              height: isTablet ? windowHeight * 0.4 : windowHeight * 0.25,
               alignItems: 'center',
               justifyContent: 'space-around',
             },
           ]}>
+          <ImageView
+            images={[{uri: imageUrl ? imageUrl : selectedImage?.uri}]}
+            imageIndex={0}
+            visible={isImageViewVisible}
+            onRequestClose={() => setImageViewVisible(false)}
+          />
           <Text style={[appStyle.text20, {width: '100%', textAlign: 'center'}]}>
             Chọn hình ảnh
           </Text>
-          <TouchableOpacity onPress={pickImageFromGallery}>
+          <TouchableOpacity onPress={() => pickImageFromGallery()}>
             <Text style={[appStyle.text16, {color: colors.textBlue}]}>
               Chọn từ thư viện
             </Text>
@@ -217,14 +266,22 @@ const ImagePickerComponent = ({
               Chụp ảnh mới
             </Text>
           </TouchableOpacity>
+          {imageUrl && (
+            <TouchableOpacity onPress={() => openImageView()}>
+              <Text style={[appStyle.text16, {color: colors.textBlue}]}>
+                Xem ảnh
+              </Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity onPress={closeBottomSheet}>
             <Text style={[appStyle.text16, {color: 'red'}]}>Huỷ</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
-    </>
+    </View>
   );
 };
+
 const styles = StyleSheet.create({
   boxCamera: {
     borderRadius: 6,
