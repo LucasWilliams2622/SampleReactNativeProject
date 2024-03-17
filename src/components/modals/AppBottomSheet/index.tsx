@@ -84,7 +84,9 @@ const AppBottomSheet = ({
             />
           </TouchableOpacity>
         )}
-
+        <View style={styles.lineContainer}>
+          <View style={styles.line} />
+        </View>
         {child}
       </View>
     </BottomSheet>
@@ -103,5 +105,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
+  },
+  lineContainer: {
+    alignItems: 'center',
+    alignSelf:'center'
+  },
+  line: {
+    width: 70,
+    height: 4,
+    backgroundColor: 'black',
+    borderRadius: 20,
   },
 });
