@@ -4,7 +4,7 @@ import {appStyle} from 'src/styles/appStyle';
 import AppButton from 'src/components/buttons/AppButton';
 import {useAppDispatch} from 'src/redux/hook';
 import {setIsSignIn} from 'src/redux/slices/authSlice';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = () => {
     try {
       dispatch(setIsSignIn(true));
-      navigation.navigate('TabNavigator')
+      navigation.navigate('TabNavigator');
     } catch (error) {
       console.log(error);
     }
@@ -21,6 +21,7 @@ const Login = () => {
   return (
     <SafeAreaView style={appStyle.container}>
       <AppButton title="Đăng nhập" onPress={() => handleLogin()} />
+      <AppButton title="INTRO" onPress={() => navigation.navigate('Intro')} />
     </SafeAreaView>
   );
 };

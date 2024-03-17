@@ -1,9 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {forwardRef, useImperativeHandle, useCallback} from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react';
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
+  Text,
   useWindowDimensions,
 } from 'react-native';
 import Animated, {
@@ -19,8 +25,12 @@ import {windowWidth} from 'src/styles/appStyle';
 interface BottomSheetProps {
   activeHeight: number;
   children: any;
-  backgroundColor: string;
-  backDropColor: string;
+  backgroundColor?: string;
+  backDropColor?: string;
+  borderRadius?: number;
+  hasExtra?: boolean;
+  extraChildren?: any;
+  extraHeight?: number;
 }
 
 interface BottomSheetRef {
@@ -35,12 +45,16 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       children,
       backgroundColor = 'white',
       backDropColor = 'gray',
+      hasExtra = false,
+      extraChildren,
+      extraHeight = windowWidth * 0.7,
     },
     ref,
   ) => {
     const {height} = useWindowDimensions();
     const newActiveHeight = height - activeHeight;
     const topAnimation = useSharedValue(height);
+    const [showExtra, setShowExtra] = useState(false);
 
     const expand = useCallback(() => {
       'worklet';
@@ -48,7 +62,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         damping: 100,
         stiffness: 400,
       });
-    }, []);
+    }, [setShowExtra]);
 
     const close = useCallback(() => {
       'worklet';
@@ -67,12 +81,25 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       [expand, close],
     );
 
+    useEffect(() => {
+      setShowExtra(false); // Reset showExtra when closing BottomSheet
+    }, [activeHeight]);
+    const handleExtra = () => {
+      console.log('UP');
+      if (!showExtra) {
+        setShowExtra(true);
+        expand();
+      } else {
+        close();
+      }
+    };
     const animationStyle = useAnimatedStyle(() => {
       const top = topAnimation.value;
       return {
         top,
       };
     });
+
     const backDropAnimation = useAnimatedStyle(() => {
       const opacity = interpolate(
         topAnimation.value,
@@ -96,12 +123,16 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             damping: 100,
             stiffness: 400,
           });
+          
+
+          // setShowExtra(true); // Show extraChildren when BottomSheet is dragged upwards
         } else {
           topAnimation.value = withSpring(ctx?.startY + event.translationY, {
             damping: 100,
             stiffness: 400,
           });
         }
+        // handleExtra()
       },
       onEnd: _ => {
         if (topAnimation.value > newActiveHeight + 50) {
@@ -109,6 +140,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             damping: 100,
             stiffness: 400,
           });
+          console.log('DOWN');
         } else {
           topAnimation.value = withSpring(newActiveHeight, {
             damping: 100,
@@ -137,11 +169,24 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             style={[
               styles.container,
               animationStyle,
-              {height: activeHeight, backgroundColor: backgroundColor},
+              {
+                height: showExtra ? extraHeight + activeHeight : activeHeight,
+                backgroundColor: backgroundColor,
+              },
             ]}>
             <View style={styles.lineContainer}>
               <View style={styles.line} />
             </View>
+            {showExtra && (
+              <Animated.View
+                style={[
+                  styles.extraContainer,
+                  {backgroundColor: backgroundColor},
+                ]}>
+                <Text>Extra</Text>
+                {extraChildren}
+              </Animated.View>
+            )}
             {children}
           </Animated.View>
         </PanGestureHandler>
@@ -160,8 +205,8 @@ const styles = StyleSheet.create({
     left: 0,
     alignSelf: 'flex-end',
     right: 0,
-    top:0,
-    bottom:0
+    top: 0,
+    bottom: 0,
   },
   lineContainer: {
     marginVertical: 10,
@@ -172,6 +217,12 @@ const styles = StyleSheet.create({
     height: 4,
     backgroundColor: 'black',
     borderRadius: 20,
+  },
+  extraContainer: {
+    left: 0,
+    alignSelf: 'flex-start',
+    right: 0,
+    bottom: 0,
   },
   backDrop: {
     position: 'absolute',

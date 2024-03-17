@@ -39,11 +39,19 @@ const DetailProfile = () => {
         <BottomSheet
           ref={bottomSheetRef}
           activeHeight={height * 0.2}
+          extraChildren={
+            <View style={{borderWidth:3}}>
+
+              <AppInput placeholder='adhasdnsak'/>
+            </View>
+          }
           children={
-            <View>
+            <View style={{borderWidth:2}}>
               <AppInput />
             </View>
           }
+          extraHeight={56} // for safe area in iOS device
+         
         />
         <BottomSheet ref={bottomSheetRef2} activeHeight={height * 0.5}>
           <View
