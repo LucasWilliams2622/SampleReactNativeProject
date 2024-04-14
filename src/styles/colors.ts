@@ -1,16 +1,16 @@
 export const colors = {
-  primary: '#e3c800',
-  secondary: '#C82A38',
-  third: '#EB7374',
+  primary: '#008505',
+  secondary: '#8ED791',
+  third: '#F1FFF2',
   forth: '#DFAFAF',
 
   main: '#FFFFFF',
   background: '#FFFFFF',
-  bgButton: '#E07900',
+  bgButton: '#008505',
 
   bgGray: '#F6F6F6',
   bgGray2: '#EAEAEA',
-  active: '#E07900',
+  active: '#008505',
   inactive: '#c0c0c0',
 
   //=======================| TEXT - TITLE |======================
