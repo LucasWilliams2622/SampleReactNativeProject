@@ -70,7 +70,6 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
-	<key>NSFaceIDUsageDescription</key>
-    <string>Ceal would require access face id</string>
+
 </dict>
 </plist>
