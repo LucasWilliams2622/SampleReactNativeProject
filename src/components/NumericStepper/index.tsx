@@ -1,99 +1,91 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {NumericStepperComponentProps} from './type';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {TextInput} from 'react-native';
 import {colors} from 'src/styles/colors';
-import {fonts} from 'src/assets/fonts/fonts';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {appStyle} from 'src/styles/appStyle';
+
+const MAX_VALUE = 999;
+
 const NumericStepper = ({
   containerStyle,
-  borderRadius = 2,
+  borderRadius = 4,
   borderColor = '#bfbfbf',
-  borderWidth = 1,
-  widthInput = 24 * 2,
-  height = 26,
-  isInput = true,
-
-  text = 1,
-  textColor = colors.primary,
+  type = 'hasBackground',
+  borderWidth = 0,
+  isInput = false,
+  width = '100%',
+  text = 0,
+  textColor = colors.text,
   textStyle,
-  iconSize = 24,
+  iconSize = 16,
   buttonStyle,
   onChangeText,
+  value,
+  onDecrement,
+  onIncrement,
+  onValueChange,
 }: NumericStepperComponentProps) => {
-  const [input, setInput] = useState(text);
-  useEffect(() => {
-    if (onChangeText) {
-      onChangeText(input);
-    }
-  }, [input, onChangeText]);
+  // const handleInputChange = (text: string) => {
+  //   let inputValue = parseInt(text, 10);
+  //   if (isNaN(inputValue) || inputValue <= 0) {
+  //     inputValue = 1;
+  //   } else if (inputValue > MAX_VALUE) {
+  //     inputValue = MAX_VALUE;
+  //   }
+  //   onValueChange(inputValue);
+  // };
 
-  const decrement = () => {
-    if (input > 1) {
-      setInput(prevInput => prevInput - 1);
-    }
-  };
-
-  const increment = () => {
-    if (input < 99999) {
-      setInput(prevInput => prevInput + 1);
-    }
-  };
-
-  const handleInputChange = (text: string) => {
-    if (text === '') {
-      setInput(1);
-    } else {
-      const inputValue = parseInt(text);
-      if (isNaN(inputValue) || inputValue <= 0) {
-        setInput(1);
-      } else if (inputValue > 99999) {
-        setInput(99999);
-      } else {
-        setInput(inputValue);
-      }
-    }
-  };
   return (
-    <View style={[styles.container, {}, containerStyle]}>
+    <View style={[styles.container, {width: width}, containerStyle]}>
       <TouchableOpacity
         style={[
           styles.button,
           {
             borderWidth: borderWidth,
             borderColor: borderColor,
-            borderTopLeftRadius: borderRadius,
-            borderBottomLeftRadius: borderRadius,
-            height: height,
+            borderRadius,
+            backgroundColor:
+              type === 'basic'
+                ? 'transparent'
+                : value === 0
+                ? colors.bgComponent
+                : colors.primary,
           },
           buttonStyle,
         ]}
-        disabled={input === 1 ? true : false}
-        onPress={decrement}>
-        <Icon
+        disabled={value === 0}
+        onPress={onDecrement}>
+        <AntDesign
           name="minus"
-          type={IconType.Entypo}
           size={iconSize}
-          color={input === 1 ? colors.gray : 'black'}
+          color={
+            value === 0
+              ? colors.gray
+              : type === 'basic'
+              ? colors.primary
+              : colors.white
+          }
         />
       </TouchableOpacity>
       <TextInput
         editable={isInput}
-        defaultValue={String(input)}
+        value={String(value)}
         style={[
-          styles.input,
+          appStyle.text16Medium,
           {
-            width: widthInput,
-            borderColor: borderColor,
-            borderTopWidth: borderWidth,
-            borderBottomWidth: borderWidth,
+            paddingVertical: 0,
+            paddingHorizontal: 16,
+            textAlign: 'center',
+            textAlignVertical: 'center',
             color: textColor,
-            height: height,
           },
           textStyle,
         ]}
+        maxLength={5}
         keyboardType="number-pad"
-        onChangeText={handleInputChange}
+        // onChangeText={handleInputChange}
       />
       <TouchableOpacity
         style={[
@@ -101,19 +93,28 @@ const NumericStepper = ({
           {
             borderWidth: borderWidth,
             borderColor: borderColor,
-            borderTopRightRadius: borderRadius,
-            borderBottomRightRadius: borderRadius,
-            height: height,
+            borderRadius,
+            backgroundColor:
+              type === 'basic'
+                ? 'transparent'
+                : value < MAX_VALUE
+                ? colors.primary
+                : colors.bgComponent,
           },
           buttonStyle,
         ]}
-        disabled={input === 99999 ? true : false}
-        onPress={increment}>
-        <Icon
+        disabled={value === MAX_VALUE}
+        onPress={onIncrement}>
+        <AntDesign
           name="plus"
-          type={IconType.Entypo}
           size={iconSize}
-          color={input === 99999 ? colors.gray : 'black'}
+          color={
+            type === 'basic' && value < MAX_VALUE
+              ? colors.primary
+              : value < MAX_VALUE
+              ? colors.white
+              : colors.gray
+          }
         />
       </TouchableOpacity>
     </View>
@@ -126,14 +127,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  input: {
-    textAlign: 'center',
-    fontFamily: fonts.SemiBold,
-    paddingVertical: 0,
+    justifyContent: 'flex-start',
   },
   button: {
+    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.bgComponent,
   },
 });

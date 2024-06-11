@@ -8,12 +8,17 @@ export type NumericStepperComponentProps = {
   widthInput?: number;
   height?: number;
   isInput?: boolean;
-
+  width?: any;
   text?: number;
   textColor?: string;
   textStyle?: StyleProp<TextStyle>;
 
   iconSize?: any;
   buttonStyle?: StyleProp<ViewStyle>;
-  onChangeText?: (text: string) => void;
+  onChangeText?: any;
+  type?: 'basic' | 'hasBackground';
+  value?: any;
+  onDecrement?: any;
+  onIncrement?: any;
+  onValueChange?: any;
 };

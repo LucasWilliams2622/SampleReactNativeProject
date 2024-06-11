@@ -22,7 +22,7 @@ export const colors = {
   placeholder: '#787878',
   borderColor: '#e6e6e6',
   borderColor2: '#E4E4E4',
-
+  bgComponent: '#E4E4E4',
   black: '#000000',
   gray: '#808080',
   white: '#FFFFFF',
